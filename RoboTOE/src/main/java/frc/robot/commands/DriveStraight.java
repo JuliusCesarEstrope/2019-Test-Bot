@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraight extends CommandBase {
   public DriveStraight() {
     requires(drive);
+    drive.resetGyro();
+    drive.setGyroSetpoint(0);
   }
 
   protected void initialize() {
@@ -11,7 +13,7 @@ public class DriveStraight extends CommandBase {
   }
 
   protected void execute() {
-    drive.setBoth(oi.getrightYAxis(), oi.getrightYAxis());
+    drive.setBoth(oi.getrightYAxis(), oi.getrightYAxis()-drive.getGyroPIDOutput());
   }
 
   protected boolean isFinished() {

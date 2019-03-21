@@ -56,12 +56,15 @@ public class OI {
   JoystickButton fourBarTestButton;
   JoystickButton wristTestButton;
   Trigger resetEncodersButton;
+  JoystickButton rightAngleButton;
 
   public OI() {
     leftJoyStick = new Joystick(Constants.leftJoystick);
     rightJoyStick = new Joystick(Constants.rightJoystick);
     gamePad = new Joystick(Constants.gamePad);
     
+    // Drive Buttons
+    driveStraightButton = new JoystickButton(rightJoyStick, 1);
 
     // Roller Buttons
     rollerButtonIn = new JoystickButton(gamePad, 5);
@@ -80,6 +83,7 @@ public class OI {
     // Test Buttons
     fourBarTestButton = new JoystickButton(rightJoyStick, 8);
     wristTestButton = new JoystickButton(rightJoyStick, 9);
+    rightAngleButton = new JoystickButton(rightJoyStick, 2);
 
     // Fourbar and Wrist + Elevator button positions
     // startPosition = new JoystickButton(gamePad, 2);
@@ -89,6 +93,7 @@ public class OI {
     // wristAngleButton = new JoystickButton(gamePad, 5);
     // fourBarAngleButton = new JoystickButton(gamePad, 22); //22 = temporary
     // number, MUST CHANGE!!
+    
     // Zero Encoders Button
     wristDownButton = new JoystickButton(gamePad, 2);
     wristUpButton = new JoystickButton(gamePad, 3);
@@ -140,7 +145,7 @@ public class OI {
     wristDownButton.whileHeld(new WristCommand(Constants.wristDownSetPoint));
     ballShoot.whileActive(new WristCommand(Constants.wristShootSetPoint));
     manualOverrideButton.whileHeld(new WristAngleCommand());
-    //driveStraightButton.whileHeld(new DriveStraight());
+    driveStraightButton.whileHeld(new DriveStraight());
     zeroEncoderTrigger.whenActive(new ZeroEncodersCommand());
 
     // fourBarTestButton.whenPressed(new
