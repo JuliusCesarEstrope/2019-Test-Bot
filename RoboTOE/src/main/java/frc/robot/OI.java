@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.WristAngleCommand;
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.ZeroEncodersCommand;
 
 public class OI {
 
@@ -34,14 +35,8 @@ public class OI {
   JoystickButton manualElevatorButton;
 
   // Fourbar and Wrist button positions
-  Trigger startPosition;
-  Trigger floorGather;
-  Trigger counterWeightReverse;
-  Trigger counterWeightForward;
-  Trigger counterWeightAutomatic;
-  JoystickButton hatchLvlTwoButton;
-  Trigger rocketLvlTwoHatch;
-  Trigger rocketLvlOneHatch;
+  Trigger jogRollerHatchUp;
+  Trigger jogRollerHatchDown;
   JoystickButton barClimbPositionButton;
   JoystickButton ballLvlOneButton;
   JoystickButton ballLvlTwoButton;
@@ -60,6 +55,7 @@ public class OI {
   // Test Buttons
   JoystickButton fourBarTestButton;
   JoystickButton wristTestButton;
+  Trigger resetEncodersButton;
 
   public OI() {
     leftJoyStick = new Joystick(Constants.leftJoystick);
@@ -98,57 +94,27 @@ public class OI {
     wristUpButton = new JoystickButton(gamePad, 3);
     wristStartButton = new JoystickButton(gamePad, 4);
 
+
     zeroEncoderTrigger = new Trigger() {
       public boolean get() {
         return (rightJoyStick.getRawButton(6) && rightJoyStick.getRawButton(11));
       }
     };
 
-    rocketLvlOneHatch = new Trigger() {
-
-      public boolean get() {
-        // return (gamePad.getPOV() == 2);
-        return false;
-      }
-    };
-
     ballShoot = new Trigger() {
-
       public boolean get() {
-        return (gamePad.getPOV() == 90);
+        return gamePad.getPOV() == 90;
       }
     };
 
-    rocketLvlTwoHatch = new Trigger() {
-
-      public boolean get() {
-        return false;
-        // return (gamePad.getPOV() == 0);
-      }
-    };
-
-    floorGather = new Trigger() {
-
-      public boolean get() {
-        return (gamePad.getPOV() == 6);
-      }
-    };
-
-    startPosition = new Trigger() {
-
-      public boolean get() {
-        return (gamePad.getPOV() == 4);
-      }
-    };
-
-    counterWeightForward = new Trigger() {
+    jogRollerHatchUp = new Trigger() {
 
       public boolean get() {
         return (gamePad.getPOV() == 0);
       }
     };
 
-    counterWeightReverse = new Trigger() {
+    jogRollerHatchDown = new Trigger() {
 
       public boolean get() {
         return (gamePad.getPOV() == 180);
@@ -170,11 +136,12 @@ public class OI {
     // ballLvlTwoButton.whenPressed(new
     // FourBarBallLvlTwoGroup(Constants.setBallLvlTwoPoint));
     wristUpButton.whileHeld(new WristCommand(Constants.wristUpSetPoint));
-    //wristStartButton.whileHeld(new WristCommand(Constants.defaultWristPosition));
+    wristStartButton.whileHeld(new WristCommand(Constants.defaultWristPosition));
     wristDownButton.whileHeld(new WristCommand(Constants.wristDownSetPoint));
     ballShoot.whileActive(new WristCommand(Constants.wristShootSetPoint));
     manualOverrideButton.whileHeld(new WristAngleCommand());
     //driveStraightButton.whileHeld(new DriveStraight());
+    zeroEncoderTrigger.whenActive(new ZeroEncodersCommand());
 
     // fourBarTestButton.whenPressed(new
     // FourBarCommand(Constants.setFloorGatherPoint));
@@ -198,6 +165,12 @@ public class OI {
 
   public boolean getRollerButtonIn() {
     return rollerButtonIn.get();
+  }
+  public boolean getJogRollerHatchUp() {
+    return jogRollerHatchUp.get();
+  }
+  public boolean getJogRollerHatchDown() {
+    return jogRollerHatchDown.get();
   }
 
   public boolean getRollerButtonOut() {
@@ -228,10 +201,6 @@ public class OI {
   }
 
   // fourbar position buttons
-  public boolean getHatchLvlTwoButton() {
-    return hatchLvlTwoButton.get();
-  }
-
   public boolean getBarClimbPositionButton() {
     return barClimbPositionButton.get();
   }

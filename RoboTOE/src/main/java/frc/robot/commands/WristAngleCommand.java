@@ -15,6 +15,7 @@ public class WristAngleCommand extends CommandBase {
   protected void execute() {
     //if(oi.getWristAxis() > 0.1 || oi.getWristAxis() < -0.1){
       wrist.setLeftWristMotor(oi.getWristAxis() * 0.4);
+      wrist.setRightWristMotor(wrist.getLeftTalonOutput());
       //wristSetPoint = wrist.getLeftWristEncoder();
     //} else {
       //swrist.setLeftWristMotorPosition(wristSetPoint);
