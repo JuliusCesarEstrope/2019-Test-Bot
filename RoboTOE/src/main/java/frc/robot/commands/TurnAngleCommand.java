@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnAngleCommand extends CommandBase {
   public double angle;
@@ -14,11 +15,14 @@ public class TurnAngleCommand extends CommandBase {
   }
 
   protected void initialize() {
+    SmartDashboard.putString("DB/String 6", "Running Turn Angle");
     drive.resetGyro();
     drive.setGyroSetpoint(angle);
+    timer.start();
   }
 
   protected void execute() {
+    SmartDashboard.putString("DB/String 5", "" + timer.get());
     drive.setBoth(drive.getGyroPIDOutput(), -drive.getGyroPIDOutput());
   }
 
@@ -26,20 +30,19 @@ public class TurnAngleCommand extends CommandBase {
     if (!drive.gyroPIDOnSetpoint()) {
       timer.reset();
     } else {
-      if (timer.get() > 0.5) {
-        return true;
-
-      }
+      return timer.hasPeriodPassed(0.5);
     }
     return false;
   }
 
   protected void end() {
+    SmartDashboard.putString("DB/String 6", "Ended Turn Angle");
     endCommand = true;
     drive.setBoth(0, 0);
   }
 
   protected void interrupted() {
+    SmartDashboard.putString("DB/String 6", "Interrupted Turn Angle");
     drive.setBoth(0, 0);
   }
 }

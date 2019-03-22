@@ -35,7 +35,7 @@ public class DriveSubsystem extends Subsystem {
       int encoderPortRight[], int frontSensor, int rightSensor, int backSensor, int leftSensor,
       int[] driveEncoderPortLeft, int[] driveEncoderPortRight, double circumferanceOfWheels, double ticksOfEncoder,
       double[] drivePIDValues) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
 
       gyroDrive = new AnalogGyro(gyroPort);
       talonLeft = new WPI_TalonSRX(motorPortsLeft[0]);
@@ -71,9 +71,9 @@ public class DriveSubsystem extends Subsystem {
       talonRight.setNeutralMode(NeutralMode.Brake);
 
       gyroPID = new PIDController(0.05, 0, 0, gyroDrive, gyroOutput);
-      gyroPID.setAbsoluteTolerance(1);
+      gyroPID.setAbsoluteTolerance(2);
       gyroPID.setInputRange(-Integer.MAX_VALUE, Integer.MAX_VALUE);
-      gyroPID.setOutputRange(-1, 1);
+      gyroPID.setOutputRange(-0.8, 0.8);
       gyroPID.setEnabled(true);
 
       victorsLeft = new WPI_VictorSPX[motorPortsLeft.length - 1];
@@ -101,19 +101,19 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void resetGyro() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroDrive.reset();
     }
   }
 
   public void setgyroPIDValues(double p, double i, double d) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroPID.setPID(p, i, d);
     }
   }
 
   public void setBothWheelEncoders(double p, double i, double d) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       // talonLeft.setPID (p, i, d);
       talonLeft.config_kP(0, p);
       talonLeft.config_kI(0, i);
@@ -138,13 +138,13 @@ public class DriveSubsystem extends Subsystem {
    */
 
   public void enableGyroPID() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroPID.enable();
     }
   }
 
   public double getGyroPIDError() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return gyroPID.getError();
     } else {
       return 0;
@@ -152,13 +152,13 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setGyroSetpoint(double setpoint) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroPID.setSetpoint(setpoint);
     }
   }
 
   public boolean gyroPIDOnSetpoint() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return gyroPID.onTarget();
     } else {
       return false;
@@ -166,7 +166,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public boolean rightOnTarget() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return Math.abs(talonRight.getClosedLoopError()) < tolerance;
     } else {
       return false;
@@ -174,7 +174,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public boolean leftOnTarget() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return Math.abs(talonLeft.getClosedLoopError()) < tolerance;
     } else {
       return false;
@@ -182,7 +182,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public boolean distanceOnTarget() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return leftOnTarget() || rightOnTarget();
     } else {
       return false;
@@ -190,7 +190,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getGyroPIDOutput() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return gyroPID.get();
     } else {
       return 0;
@@ -198,7 +198,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setBothWheelPIDValues(double p, double i, double d) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       // leftWheelEncoderPID.setPID (p, i, d);
       // leftWheelEncoderPID.setP(p);
       // leftWheelEncoderPID.setI(i);
@@ -231,13 +231,13 @@ public class DriveSubsystem extends Subsystem {
    */
 
   public void disableGyroPID() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroPID.disable();
     }
   }
 
   public void setLeft(double speed) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeft.set(ControlMode.PercentOutput, speed);
       // for (VictorSPX i : victorsLeft)
       // i.set(ControlMode.PercentOutput, Math.min(Math.max(speed, -1), 1));
@@ -245,7 +245,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setRight(double speed) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonRight.set(ControlMode.PercentOutput, speed);
       // for (VictorSPX i : victorsRight)
       // i.set(ControlMode.PercentOutput, Math.max(Math.min(-speed, -1), 1));
@@ -253,25 +253,25 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setLeftMotorPosition(double position) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeft.set(ControlMode.Position, position);
     }
   }
 
   public void setRightMotorPosition(double position) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonRight.set(ControlMode.Position, position);
     }
   }
 
   public void setBothPositions(double talonLeftPosition, double talonRightPosition) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       setBothPositions(talonLeftPosition, talonRightPosition, 0);
     }
   }
 
   public void setBothPositions(double talonLeftPosition, double talonRightPosition, double gyroCorrection) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeftPosition *= Constants.ticksOfEncoder / Constants.circumferenceOfWheels;
       talonRightPosition *= Constants.ticksOfEncoder / Constants.circumferenceOfWheels;
       setLeftMotorPosition(talonLeftPosition);
@@ -282,7 +282,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getWheelDistanceLeft() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonLeft.getSelectedSensorPosition();
     } else {
       return 0;
@@ -290,7 +290,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getWheelDistanceRight() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonRight.getSelectedSensorPosition();
     } else {
       return 0;
@@ -298,48 +298,48 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setBoth(double speedLeft, double speedRight) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       setLeft(speedLeft);
       setRight(speedRight);
     }
   }
 
   public void setBoth(double speed) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       setLeft(speed);
       setRight(speed);
     }
   }
 
   public void setTalonMotorPositions(double position) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeft.set(ControlMode.Position, position / Constants.circumferenceOfWheels * Constants.ticksOfEncoder);
       talonRight.set(ControlMode.Position, position / Constants.circumferenceOfWheels * Constants.ticksOfEncoder);
     }
   }
 
   public void resetEncoder() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeft.setSelectedSensorPosition(0);
       talonRight.setSelectedSensorPosition(0);
     }
   }
 
   public void resetSensorPositions() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       talonLeft.setSelectedSensorPosition(0);
       talonRight.setSelectedSensorPosition(0);
     }
   }
 
   public void calibrateGyro() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       gyroDrive.calibrate();
     }
   }
 
   public double getAngle() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return gyroDrive.getAngle() % 360;
     } else {
       return 0;
@@ -347,7 +347,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public int getEncoderLeft() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonLeft.getSelectedSensorPosition();
     } else {
       return 0;
@@ -355,7 +355,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public int getEncoderRight() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonRight.getSelectedSensorPosition();
     } else {
       return 0;
@@ -363,7 +363,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setdrivePIDValues(double p, double i, double d) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       // fourBarPID.setPID(p, i, d);
       talonLeft.config_kP(0, p);
       talonLeft.config_kI(0, i);
@@ -375,7 +375,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void setdrivePIDValues(double p, double i, double d, double f) {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       setdrivePIDValues(p, i, d);
       talonLeft.config_kF(0, f);
       // fourBarPID.setP(p);
@@ -386,7 +386,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getRightSensorPosition() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonRight.getSelectedSensorPosition();
     } else {
       return 0;
@@ -394,7 +394,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getRightError() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return talonRight.getClosedLoopError();
     } else {
       return 0;
@@ -402,7 +402,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public boolean getLeftSensor() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return leftSensor.get();
     } else {
       return false;
@@ -411,7 +411,7 @@ public class DriveSubsystem extends Subsystem {
 
   // sets leftSensor to a boolean value of true being it is seeing the tape
   public boolean getFrontSensor() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return frontSensor.get();
     } else {
       return false;
@@ -420,7 +420,7 @@ public class DriveSubsystem extends Subsystem {
 
   // sets frontSensor to a boolean value of true being it is seeing the tape
   public boolean getRightSensor() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return rightSensor.get();
     } else {
       return false;
@@ -428,7 +428,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public boolean getBackSensor() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       return backSensor.get();
     } else {
       return false;
@@ -436,7 +436,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void initDefaultCommand() {
-    if (Constants.wristEnabled) {
+    if (Constants.driveEnabled) {
       setDefaultCommand(new TankDriveCommand());
     }
   }

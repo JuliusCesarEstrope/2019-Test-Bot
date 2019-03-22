@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.TurnAngleCommand;
 import frc.robot.commands.WristAngleCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.ZeroEncodersCommand;
@@ -147,6 +149,9 @@ public class OI {
     manualOverrideButton.whileHeld(new WristAngleCommand());
     driveStraightButton.whileHeld(new DriveStraight());
     zeroEncoderTrigger.whenActive(new ZeroEncodersCommand());
+
+    //Test Commands
+    rightAngleButton.whenPressed(new TurnAngleCommand(90));
 
     // fourBarTestButton.whenPressed(new
     // FourBarCommand(Constants.setFloorGatherPoint));

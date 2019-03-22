@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraight extends CommandBase {
   public DriveStraight() {
     requires(drive);
-    drive.resetGyro();
-    drive.setGyroSetpoint(0);
   }
 
   protected void initialize() {
     SmartDashboard.putString("DB/Sring 9", "Running DriveStraight");
+    drive.resetGyro();
+    drive.setGyroSetpoint(0);
   }
 
   protected void execute() {
