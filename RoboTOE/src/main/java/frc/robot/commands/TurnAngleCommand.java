@@ -18,7 +18,7 @@ public class TurnAngleCommand extends CommandBase {
     SmartDashboard.putString("DB/String 6", "Running Turn Angle");
     drive.resetGyro();
     drive.setGyroSetpoint(angle);
-    timer.start();
+    timer.start(); 
   }
 
   protected void execute() {

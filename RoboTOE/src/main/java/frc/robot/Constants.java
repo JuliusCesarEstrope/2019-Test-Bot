@@ -78,12 +78,12 @@ public class Constants {
   //Wrist stuff
   public static final int[] leftWristEncoderPort = {6, 7};
   public static final int[] rightWristEncoderPort = {8, 9};
-  public static int wristDownSetPoint = -30850;//0 ticks
+  public static int wristDownSetPoint = -31000;//0 ticks
   public static int wristMidSetPoint = (28*((4096/360)*(45))); //14,336 ticks
-  public static int wristUpSetPoint = -3200; 
+  public static int wristUpSetPoint = -5500; 
   public static final double defaultWristPosition = 0;
   public static final double[] wristPIDValues = {.25, 0, 0, 0};
-  public static final double wristShootSetPoint = -10400;
+  public static final double wristShootSetPoint = -10100;
 
   // FIGURE OUT WHAT VALUE IS SUPPOSED TO BE
   public static final double distanceToTicks = (4096 / (Math.PI * 1.432));
