@@ -10,8 +10,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.commands.TankDriveCommand;
@@ -22,6 +24,7 @@ public class DriveSubsystem extends Subsystem {
   DoublePIDOutput gyroOutput;
   VictorSPX[] victorsLeft, victorsRight;
   AnalogGyro gyroDrive;
+  AnalogInput ultra;
   double pidTolerance = 70;
   double ramp = .25;
   static DigitalInput leftSensor;
@@ -41,6 +44,9 @@ public class DriveSubsystem extends Subsystem {
       talonLeft = new WPI_TalonSRX(motorPortsLeft[0]);
       talonRight = new WPI_TalonSRX(motorPortsRight[0]);
       gyroOutput = new DoublePIDOutput();
+
+      ultra = new AnalogInput(1);
+      //ultra.setAutomaticMode(true);
 
       talonLeft.configFactoryDefault();
       talonRight.configFactoryDefault();
@@ -195,6 +201,10 @@ public class DriveSubsystem extends Subsystem {
     } else {
       return 0;
     }
+  }
+
+  public double getUltra(){
+    return ultra.getVoltage();
   }
 
   public void setBothWheelPIDValues(double p, double i, double d) {

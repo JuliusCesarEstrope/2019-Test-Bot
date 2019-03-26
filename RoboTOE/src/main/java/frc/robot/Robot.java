@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 9", "" + CommandBase.wrist.getLeftWristEncoderError());
     SmartDashboard.putString("DB/String 2", "Gyro Error");
     SmartDashboard.putString("DB/String 7", "" + CommandBase.drive.getGyroPIDError());
+    SmartDashboard.putString("DB/String 0", "" + CommandBase.drive.getUltra());
   }
 
   /**

@@ -21,6 +21,7 @@ public class OI {
   // Roller Buttons
   JoystickButton rollerButtonIn;
   JoystickButton rollerButtonOut;
+  JoystickButton ballShootButton;
 
   // Gather Buttons
   JoystickButton booperButton;
@@ -71,6 +72,7 @@ public class OI {
     // Roller Buttons
     rollerButtonIn = new JoystickButton(gamePad, 5);
     rollerButtonOut = new JoystickButton(gamePad, 6);
+    ballShootButton = new JoystickButton(gamePad, 7);
 
     // Manual Motor Overide Button
     manualOverrideButton = new JoystickButton(gamePad, 1);
@@ -156,6 +158,10 @@ public class OI {
     // fourBarTestButton.whenPressed(new
     // FourBarCommand(Constants.setFloorGatherPoint));
     // wristTestButton.whileHeld(new WristCommand(Constants.wristUpSetPoint));
+  }
+
+  public boolean getBallShootButton(){
+    return ballShootButton.get();
   }
 
   public double getleftYAxis() {

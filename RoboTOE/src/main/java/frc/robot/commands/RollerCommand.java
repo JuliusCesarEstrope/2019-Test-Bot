@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class RollerCommand extends CommandBase {
   
-  boolean jogRollerHatchUp, jogRollerHatchDown, buttonReleased;
-  Timer timer;
+  boolean jogRollerHatchUp, jogRollerHatchDown, buttonReleased, shootRollerBall;
+  Timer timer, ballTimer;
   double time = 0.05;
+  double ballTime = 0.1;
 
   public RollerCommand() {
     requires(roller);
@@ -17,8 +18,10 @@ public class RollerCommand extends CommandBase {
     roller.setRollerMotor(0);
     jogRollerHatchUp = false;
     jogRollerHatchDown = false;
+    shootRollerBall = false;
     buttonReleased = true;
     timer = new Timer();
+    ballTimer = new Timer();
   }
 
   protected void execute() {
@@ -35,11 +38,24 @@ public class RollerCommand extends CommandBase {
       buttonReleased = true;
     }
 
+    if(oi.getBallShootButton() && buttonReleased){
+      shootRollerBall = true;
+      ballTimer.start();
+      buttonReleased = false;
+    } else if(!oi.getBallShootButton()){
+      buttonReleased = true;
+    }
+
     if(timer.hasPeriodPassed(time)){
       timer.stop();
       timer.reset();
       jogRollerHatchUp = false;
       jogRollerHatchDown = false;
+    }
+    if(ballTimer.hasPeriodPassed(ballTime)){
+      ballTimer.stop();
+      ballTimer.reset();
+      shootRollerBall = false;
     }
 
     if (oi.getRollerButtonIn()) {
@@ -54,6 +70,9 @@ public class RollerCommand extends CommandBase {
     }
     else if(jogRollerHatchUp){
       roller.setRollerMotor(0.40);
+    }
+    else if(shootRollerBall){
+      roller.setRollerMotor(-1.00);
     }
   }
 
