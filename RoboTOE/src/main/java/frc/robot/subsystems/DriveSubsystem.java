@@ -33,6 +33,7 @@ public class DriveSubsystem extends Subsystem {
   static DigitalInput backSensor;
   private static PIDController gyroPID;
   private static int tolerance = 70;
+  private static double maxAutonDriveSpeed = .5;
 
   public DriveSubsystem(int[] motorPortsLeft, int[] motorPortsRight, int gyroPort, int encoderPortLeft[],
       int encoderPortRight[], int frontSensor, int rightSensor, int backSensor, int leftSensor,
@@ -53,24 +54,24 @@ public class DriveSubsystem extends Subsystem {
       talonLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
       talonRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 
-      talonLeft.configPeakOutputForward(1);
-      talonLeft.configPeakOutputReverse(-1);
+      talonLeft.configPeakOutputForward(maxAutonDriveSpeed);
+      talonLeft.configPeakOutputReverse(-maxAutonDriveSpeed);
       talonLeft.configClosedloopRamp(ramp);
-      // talonLeft.config_kP(0, drivePIDValues[0]);
-      // talonLeft.config_kI(0, drivePIDValues[1]);
-      // talonLeft.config_kD(0, drivePIDValues[2]);
-      // talonLeft.config_kF(0, drivePIDValues[3]);
-      // talonLeft.setSensorPhase(true);
+      talonLeft.config_kP(0, Constants.leftEncoderPIDValues[0]);
+      talonLeft.config_kI(0, Constants.leftEncoderPIDValues[1]);
+      talonLeft.config_kD(0, Constants.leftEncoderPIDValues[2]);
+      talonLeft.config_kF(0, Constants.leftEncoderPIDValues[3]);
+      talonLeft.setSensorPhase(true);
       // talonLeft.setInverted(false);
 
-      talonRight.configPeakOutputForward(1);
-      talonRight.configPeakOutputReverse(-1);
+      talonRight.configPeakOutputForward(maxAutonDriveSpeed);
+      talonRight.configPeakOutputReverse(-maxAutonDriveSpeed);
       talonRight.configClosedloopRamp(ramp);
-      // talonRight.config_kP(0, drivePIDValues[0]);
-      // talonRight.config_kI(0, drivePIDValues[1]);
-      // talonRight.config_kD(0, drivePIDValues[2]);
-      // talonRight.config_kF(0, drivePIDValues[3]);
-      // talonRight.setSensorPhase(true);
+      talonRight.config_kP(0, Constants.rightEncoderPIDValues[0]);
+      talonRight.config_kI(0, Constants.rightEncoderPIDValues[1]);
+      talonRight.config_kD(0, Constants.rightEncoderPIDValues[2]);
+      talonRight.config_kF(0, Constants.rightEncoderPIDValues[3]);
+      talonRight.setSensorPhase(true);
       talonRight.setInverted(true);
 
       talonLeft.setNeutralMode(NeutralMode.Brake);
@@ -395,9 +396,9 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
-  public double getRightSensorPosition() {
+  public double getLeftError() {
     if (Constants.driveEnabled) {
-      return talonRight.getSelectedSensorPosition();
+      return talonRight.getClosedLoopError();
     } else {
       return 0;
     }

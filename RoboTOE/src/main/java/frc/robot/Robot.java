@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autonomi.AutonInput;
 import frc.robot.commands.CommandBase;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -37,11 +38,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    CommandBase.init();
     //m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    m_chooser.setDefaultOption("Default Auto", new AutonInput());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    CommandBase.init();
   }
 
   /**
@@ -55,13 +56,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putString("DB/String 3", "Left Wrist Readout");
-    SmartDashboard.putString("DB/String 8", "" + CommandBase.wrist.getLeftWristEncoder());
-    SmartDashboard.putString("DB/String 4", "Left Wrist Error");
-    SmartDashboard.putString("DB/String 9", "" + CommandBase.wrist.getLeftWristEncoderError());
+    // SmartDashboard.putString("DB/String 3", "Left Wrist Readout");
+    // SmartDashboard.putString("DB/String 8", "" + CommandBase.wrist.getLeftWristEncoder());
+    // SmartDashboard.putString("DB/String 4", "Left Wrist Error");
+    // SmartDashboard.putString("DB/String 9", "" + CommandBase.wrist.getLeftWristEncoderError());
     SmartDashboard.putString("DB/String 2", "Gyro Error");
     SmartDashboard.putString("DB/String 7", "" + CommandBase.drive.getGyroPIDError());
-    SmartDashboard.putString("DB/String 0", "" + CommandBase.drive.getUltra());
+    // SmartDashboard.putString("DB/String 0", "" + CommandBase.drive.getUltra());
   }
 
   /**

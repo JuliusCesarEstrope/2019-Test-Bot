@@ -166,12 +166,12 @@ public class OI {
 
   public double getleftYAxis() {
     // return Math.pow(-leftJoyStick.getY(), 3.0);
-    return -leftJoyStick.getY() * Math.abs(leftJoyStick.getY());
+    return -leftJoyStick.getY();
   }
 
   public double getrightYAxis() {
     // return -Math.pow(-rightJoyStick.getY(), 3.0);
-    return -rightJoyStick.getY() * Math.abs(rightJoyStick.getY());
+    return -rightJoyStick.getY();
   }
 
   public double getleftXAxis() {

@@ -15,14 +15,13 @@ public class TurnAngleCommand extends CommandBase {
   }
 
   protected void initialize() {
-    SmartDashboard.putString("DB/String 6", "Running Turn Angle");
+    SmartDashboard.putString("DB/String 9", "Running Turn Angle");
     drive.resetGyro();
     drive.setGyroSetpoint(angle);
     timer.start(); 
   }
 
   protected void execute() {
-    SmartDashboard.putString("DB/String 5", "" + timer.get());
     drive.setBoth(drive.getGyroPIDOutput(), -drive.getGyroPIDOutput());
   }
 
@@ -36,13 +35,13 @@ public class TurnAngleCommand extends CommandBase {
   }
 
   protected void end() {
-    SmartDashboard.putString("DB/String 6", "Ended Turn Angle");
+    SmartDashboard.putString("DB/String 9", "Ended Turn Angle");
     endCommand = true;
     drive.setBoth(0, 0);
   }
 
   protected void interrupted() {
-    SmartDashboard.putString("DB/String 6", "Interrupted Turn Angle");
+    SmartDashboard.putString("DB/String 9", "Interrupted Turn Angle");
     drive.setBoth(0, 0);
   }
 }
